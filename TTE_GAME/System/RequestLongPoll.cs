@@ -147,6 +147,11 @@ namespace TTE_GAME.System
                               
                                 int IdMes = Convert.ToInt32(json["updates"][i]["object"]["conversation_message_id"]);
                                 int Time = Convert.ToInt32(json["updates"][i]["object"]["date"]);
+                                string IdButton = "0";
+                                if (json["updates"][i]["object"]["payload"] != null)
+                                {
+                                    IdButton = new String(json["updates"][i]["object"]["payload"].ToString().Where(Char.IsDigit).ToArray());
+                                }
                                 string Title = json["updates"][i]["object"]["text"].ToString();
                                 int[] Razdelit = ExtraFunction.SettingDanniEf.SettingDanniBeseda(Convert.ToInt32(json["updates"][i]["object"]["from_id"]), Convert.ToInt32(json["updates"][i]["object"]["peer_id"]));
 
@@ -156,7 +161,7 @@ namespace TTE_GAME.System
                                 Task.Run(() =>
                                 {
                                     Task_Factory task = new Task_Factory();
-                                    task.Processing_Command(Title, IdPols, IdPolsBes, IdMes, Time);
+                                    task.Processing_Command(Title, IdPols, IdPolsBes, IdMes, Time, Convert.ToInt32(IdButton));
                                 });
 
                                 Console.ForegroundColor = ConsoleColor.Green;

@@ -29,7 +29,7 @@ namespace TTE_GAME.System
             string response = danni.Post("https://api.vk.com/method/messages.send?", reqParams).ToString();
 
         }
-        public void Send(Variables data, string Message, string Media = "", JObject keyboard = null)
+        public void Send(Variables data, string Message, string Media = "", string keyboard = null)
         {
             var danni = new HttpRequest();
             danni.Cookies = new CookieDictionary();

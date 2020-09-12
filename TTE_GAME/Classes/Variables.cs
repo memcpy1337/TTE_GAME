@@ -14,6 +14,7 @@ namespace TTE_GAME.Classes
         public int Time { get; set; }
         public int IdPols { get; set; }
         public int IdPolsBes { get; set; }
+        public int IdButton { get; set; }
         public int IdMes { get; set; }
         public string Title { get; set; }
         public string Title_Lower { get; set; }
