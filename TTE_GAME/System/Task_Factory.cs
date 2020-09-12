@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Text;
+using TTE_GAME.Actions.Shop_Worker;
 using TTE_GAME.Classes;
 using TTE_GAME.ExtraFunction;
 
@@ -49,13 +50,27 @@ namespace TTE_GAME.System
                 return;
                
             }
+            if ((mysqlQuerry.Execute_Select_One("vkid", "last_keyboard", "order_keyboard", "users") != "error") && (Extension.IsNumeric(data.Title_Lower)))
+            {
+                Check_Answer check_Answer = new Check_Answer();
+                check_Answer.CheckAnsw(data);
+            }
+
             Command_Router command_Router = new Command_Router();
             command_Router.Router_Buttons(data);
 
         }
-      
+
         
 
 
    }
+    public static class Extension
+    {
+        public static bool IsNumeric(this string s)
+        {
+            float output;
+            return float.TryParse(s, out output);
+        }
+    }
 }

@@ -193,5 +193,36 @@ namespace TTE_GAME.ExtraFunction
             }
             return new List<string> { "error" };
         }
+
+        public void Execute_Delete_One(string values, string searching_value, string table)
+        {
+            try
+            {
+                string sql_insert = "DELETE FROM " + table + " WHERE " + values + " = @" + searching_value;
+
+
+                MySqlConnection conn = new MySqlConnection(Variables_Static.conn);
+
+                conn.OpenAsync();
+                MySqlCommand comm = conn.CreateCommand();
+
+                comm.CommandText = sql_insert;
+                comm.Parameters.AddWithValue("@" + searching_value, searching_value);
+
+                var output = comm.ExecuteNonQuery();
+                
+                // string sql_reg_acc = "INSERT INTO users (vkid, vkname) VALUES (@param_vkid, @param_vkname)";
+
+                conn.CloseAsync();
+                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+               
+            }
+
+        }
     }
 }
+
