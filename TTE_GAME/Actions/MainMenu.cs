@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 using TTE_GAME.Classes;
 using TTE_GAME.ExtraFunction;
@@ -18,7 +19,7 @@ namespace TTE_GAME.Actions
             //MysqlQuerry mysqlQuerry = new MysqlQuerry();
             //mysqlQuerry.Execute_Insert(rows, data_user, "users", true);
 
-
+            MysqlQuerry mysqlQuerry = new MysqlQuerry();
             MessageSend MesSend = new MessageSend();
             var Keyboard_obj = new Keyboard()
             {
@@ -45,7 +46,7 @@ namespace TTE_GAME.Actions
                        new buttons()
                        {
 
-                                action = new action()
+                                action = new action() //найти рандомного врага твоего уровня
                                 {
                                 type = "text",
                                 label = "Бойцовский клуб",
@@ -122,7 +123,8 @@ namespace TTE_GAME.Actions
                 }
             };
             string json = JsonConvert.SerializeObject(Keyboard_obj, Formatting.Indented);
-
+            List<string> res = new List<string>();
+            res = mysqlQuerry.Execute_Select_Multi(new string[] { "vkid", "hero", "money" }, "vkid", data.IdPols.ToString(), "users");
 
             //ТУТ МЫ УЖЕ РЕГИСТРИРУЕМ ЧЕЛА, ВНОСИМ ЕГО АЙДИ ВК И Т.Д. ДАЛЕЕ ПОЛУЧАЕМ КНОПКУ (ВЫБРАННОГО ПЕРСА) В СЛЕД СООБЩЕНИИ, И ДЕЛАЕМ ДЕЙСТВИЯ ДАЛЬНЕЙШИЕ.
 

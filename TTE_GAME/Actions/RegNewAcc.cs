@@ -11,8 +11,11 @@ namespace TTE_GAME.System
     {
         public void RegNewAccount(Variables data)
         {
-            string[] rows = { "vkid", "vkname" };
-            string[] data_user = { data.IdPols.ToString(), data.IdPols.ToString() };
+            GetNameById getNameById = new GetNameById();
+
+            string[] rows = { "vkid", "vkname", "vksurname" };
+            string[] name = getNameById.GetName(data);
+            string[] data_user = { data.IdPols.ToString(), name[0], name[1] };
             MysqlQuerry mysqlQuerry = new MysqlQuerry();
             mysqlQuerry.Execute_Insert(rows, data_user, "users", true);
 
