@@ -273,6 +273,54 @@ namespace TTE_GAME.ExtraFunction
             }
 
         }
+
+        public List<string> Execute_Select_Multi_Battle(string[] row, string lvl, string vkid, string table)
+        {
+            try
+            {
+                string sql_insert = "SELECT ";
+
+                for (int i = 0; i < row.Length; i++)
+                {
+                    sql_insert += row[i];
+                    if (i < row.Length - 1)
+                    {
+                        sql_insert += ", ";
+                    }
+
+                }
+                sql_insert += " FROM " + table + " WHERE (((@lvl_1 - 2) <= (SELECT lvl FROM users WHERE vkid = @user_id)) && ((@lvl_1 + 2) >= (SELECT lvl FROM users WHERE vkid = @user_id)) && (vkid != @user_id)) ORDER BY RAND() LIMIT 1";
+                MySqlConnection conn = new MySqlConnection(Variables_Static.conn);
+
+                conn.OpenAsync();
+                MySqlCommand comm = conn.CreateCommand();
+                comm.CommandText = sql_insert;
+                
+                comm.Parameters.AddWithValue("@lvl_1", lvl);
+                comm.Parameters.AddWithValue("@user_id", vkid);
+                MySqlDataReader reader = comm.ExecuteReader();
+
+
+                List<string> res = new List<string>();
+
+                while (reader.Read())
+                {
+                    for (int y = 0; y < row.Length; y++)
+                    {
+                        res.Add(reader[row[y]].ToString());
+                    }
+
+                }
+                reader.Close();
+                conn.CloseAsync();
+                return res;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            return new List<string> { "error" };
+        }
     }
 }
 

@@ -73,6 +73,11 @@ namespace TTE_GAME.ExtraFunction
                     ability_Shop.ShowShop(data);
                     mysqlQuerry.Execute_Update_Where(new string[] { "last_keyboard" }, new string[] { "ability_shop_keyboard" }, "users", true, true, "vkid", data.IdPols.ToString());
                     return;
+                case 1006:
+                    Battle battle = new Battle();
+                    battle.FindEnemy(data);
+                    mysqlQuerry.Execute_Update_Where(new string[] { "last_keyboard" }, new string[] { "battle_search_keyboard" }, "users", true, true, "vkid", data.IdPols.ToString());
+                    return;
 
             }
         }
