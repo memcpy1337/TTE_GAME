@@ -3,6 +3,7 @@ using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using TTE_GAME.Classes;
 
 namespace TTE_GAME.ExtraFunction
@@ -34,6 +35,7 @@ namespace TTE_GAME.ExtraFunction
                 sql_insert += ") VALUES (";
                 for (int i = 0; i < values.Length; i++)
                 {
+                    
                     sql_insert += "@" + values[i] + "_" + i;
                     if (i < values.Length - 1)
                     {
@@ -50,9 +52,11 @@ namespace TTE_GAME.ExtraFunction
                 comm.CommandText = sql_insert;
                 for (int i = 0; i < values.Length; i++)
                 {
+                    
+
                     comm.Parameters.AddWithValue("@" + values[i] + "_" + i, values[i]);
                 }
-                Console.WriteLine(comm.ExecuteNonQueryAsync());
+                Console.WriteLine(comm.ExecuteNonQuery());
 
                 // string sql_reg_acc = "INSERT INTO users (vkid, vkname) VALUES (@param_vkid, @param_vkname)";
 
@@ -111,7 +115,53 @@ namespace TTE_GAME.ExtraFunction
             }
 
         }
+        public void Execute_Increase_By_Where(string[] rows, string[] values, string table, bool if_not_exist, bool where, string target_row, string value)
+        {
+            try
+            {
+                string sql_insert = "";
+                if (if_not_exist == true)
+                {
+                    sql_insert = "UPDATE " + table + " SET ";
+                }
+                else
+                {
+                    sql_insert = "UPDATE " + table + " SET ";
+                }
+                for (int i = 0; i < rows.Length; i++)
+                {
+                    sql_insert += rows[i] + " = @" + values[i] + "_" + i + " + " + rows[i];
+                    if (i < rows.Length - 1)
+                    {
+                        sql_insert += ", ";
+                    }
+                }
 
+                sql_insert += " WHERE " + target_row + " = @" + value;
+
+
+                MySqlConnection conn = new MySqlConnection(Variables_Static.conn);
+
+                conn.OpenAsync();
+                MySqlCommand comm = conn.CreateCommand();
+                comm.CommandText = sql_insert;
+                for (int i = 0; i < values.Length; i++)
+                {
+                    comm.Parameters.AddWithValue("@" + values[i] + "_" + i, values[i]);
+                }
+                comm.Parameters.AddWithValue("@" + value, value);
+                Console.WriteLine(comm.ExecuteNonQueryAsync());
+
+                // string sql_reg_acc = "INSERT INTO users (vkid, vkname) VALUES (@param_vkid, @param_vkname)";
+
+                conn.CloseAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+        }
         public string Execute_Select_One(string row, string values, string searching_value, string table)
         {
             try

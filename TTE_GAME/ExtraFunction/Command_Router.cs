@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using TTE_GAME.Actions;
 using TTE_GAME.Actions.Characters_Info;
+using TTE_GAME.Actions.Shop;
 using TTE_GAME.Actions.Shop_Worker;
 using TTE_GAME.Classes;
 using TTE_GAME.System;
@@ -62,7 +63,16 @@ namespace TTE_GAME.ExtraFunction
                     get_Summ.SendOrder(data);
                     mysqlQuerry.Execute_Update_Where(new string[] { "last_keyboard" }, new string[] { "order_keyboard" }, "users", true, true, "vkid", data.IdPols.ToString());
                     return;
-
+                case 1011:
+                    Shop_Mag shop = new Shop_Mag();
+                    shop.Show_Shop(data);
+                    mysqlQuerry.Execute_Update_Where(new string[] { "last_keyboard" }, new string[] { "shop_keyboard" }, "users", true, true, "vkid", data.IdPols.ToString());
+                    return;
+                case 1017:
+                    Ability_Shop ability_Shop = new Ability_Shop();
+                    ability_Shop.ShowShop(data);
+                    mysqlQuerry.Execute_Update_Where(new string[] { "last_keyboard" }, new string[] { "ability_shop_keyboard" }, "users", true, true, "vkid", data.IdPols.ToString());
+                    return;
 
             }
         }

@@ -124,13 +124,21 @@ namespace TTE_GAME.Actions
             };
             string json = JsonConvert.SerializeObject(Keyboard_obj, Formatting.Indented);
             List<string> res = new List<string>();
-            res = mysqlQuerry.Execute_Select_Multi(new string[] { "vkid", "hero", "money" }, "vkid", data.IdPols.ToString(), "users");
-
+            res = mysqlQuerry.Execute_Select_Multi(new string[] { "vkid", "vkname", "vksurname", "hero", "money", "join_time", "lvl", "winning_duels" }, "vkid", data.IdPols.ToString(), "users");
+            string character_name = "";
             //ТУТ МЫ УЖЕ РЕГИСТРИРУЕМ ЧЕЛА, ВНОСИМ ЕГО АЙДИ ВК И Т.Д. ДАЛЕЕ ПОЛУЧАЕМ КНОПКУ (ВЫБРАННОГО ПЕРСА) В СЛЕД СООБЩЕНИИ, И ДЕЛАЕМ ДЕЙСТВИЯ ДАЛЬНЕЙШИЕ.
+            switch (res[3])
+            {
+                case "1":
+                    character_name = "Take The Elevator";
+                    break;
+                case "2":
+                    character_name = "Richi King";
+                    break;
+            }
 
-
-            MesSend.Send(data, "{BD}", "", json);
-
+            MesSend.Send(data, "💬Номер: " + res[0] + "\n" + "👤Имя: " + res[1] + " " + res[2] + "\n" + "🚶‍♂Твой персонаж: " + character_name + "\n" + "💶Деньги: " + res[4] + "\n" + "📆Дата регистрации: " + res[5] + "\n" + "👑Уровень: " + res[6] + "\n" + "🏆Выиграно дуэлей: " + res[7] + "\n", "", json);
+           
         }
     }
 }

@@ -13,7 +13,7 @@ namespace TTE_GAME.System
         {
             GetNameById getNameById = new GetNameById();
 
-            string[] rows = { "vkid", "vkname", "vksurname" };
+            string[] rows = { "vkid", "vkname", "vksurname"};
             string[] name = getNameById.GetName(data);
             string[] data_user = { data.IdPols.ToString(), name[0], name[1] };
             MysqlQuerry mysqlQuerry = new MysqlQuerry();

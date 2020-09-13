@@ -25,7 +25,7 @@ namespace TTE_GAME.Actions.Shop_Worker
                 int money = random.Next(5, 10);
 
                 mySqlQuerry.Execute_Delete_One("vkid", data.IdPols.ToString(), "shop_worker");
-                mySqlQuerry.Execute_Update_Where(new string[] { "money" }, new string[] { money.ToString() }, "users", true, true, "vkid", data.IdPols.ToString());
+                mySqlQuerry.Execute_Increase_By_Where(new string[] { "money" }, new string[] { money.ToString() }, "users", true, true, "vkid", data.IdPols.ToString());
                 messageSend.Send(data, "Верно. Ты заработал: 💶" + money.ToString() + " рублей" + "\n", "");
 
 
