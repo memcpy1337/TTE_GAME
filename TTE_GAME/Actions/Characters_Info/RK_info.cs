@@ -71,9 +71,11 @@ namespace TTE_GAME.Actions.Characters_Info
 
         public void Choose(Variables data)
         {
-            string[] rows = { "hero" };
-            string[] hero_pick = { "2" };
             MysqlQuerry mysqlQuerry = new MysqlQuerry();
+            List<string> info = mysqlQuerry.Execute_Select_Multi(new string[] { "agility", "intelligence", "strength" }, "id", "2", "characters");
+            string[] rows = { "hero", "hero_strength", "hero_agility", "hero_intelligence" };
+            string[] hero_pick = { "2", info[2], info[0], info[1] };
+
             if (mysqlQuerry.Execute_Select_One("hero", "vkid", data.IdPols.ToString(), "users") == "error")
             {
                 mysqlQuerry.Execute_Update_Where(rows, hero_pick, "users", true, true, "vkid", data.IdPols.ToString());
